@@ -5,6 +5,18 @@
     <main>
       <Hero v-bind:hero="data"></Hero>
       <Hero v-bind:hero="data2"></Hero>
+      <h3>Perulangan</h3>
+      <div v-for="item in data3" :key="item.id">
+        <Hero v-bind:hero="item"></Hero>
+      </div>
+      <!-- atau -->
+      <h3>Hero Terbaik</h3>
+      <article v-if="!selectedHero">
+        <Hero v-for="(item,index) in data3" v-bind:hero="item" :key="item.id" v-bind:index="index"> </Hero>
+      </article>
+      <article>
+        <Hero v-bind:hero="selectedHero" :key="selectedHero.id" v-bind:index="0"> </Hero>
+      </article>
     </main>
     <Footer></Footer>
   </div>
@@ -34,18 +46,30 @@ export default {
         name: 'Akai',
         type: 'Tank',
         image: 'akai.jpg'
-      }
+      },
+      data3: [
+        {
+          id: 1,
+          name: 'Bruno',
+          type: 'Marksman',
+          image: 'bruno.jpg'
+        },
+        {
+          id: 2,
+          name: 'Gatotkaca',
+          type: 'Tank',
+          image: 'gatotkaca.png'
+        }
+      ],
+      selectedHero: ''
     }
   },
   methods: {
         changeHero: function(){
-            this.data.name = 'Aurora'
-            this.data.type = 'Mage'
-            this.data.image = 'aurora.jpg'
-
-            this.data2.name = 'Aurora'
-            this.data2.type = 'Mage'
-            this.data2.image = 'aurora.jpg'
+            this.selectedHero = this.randomHero()
+        },
+        randomHero(){
+          return this.data3[Math.floor(Math.random() * this.data3.length)]
         }
     }
   
@@ -60,5 +84,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+main {
+  text-align: center;
+}
+article {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>
